@@ -15,15 +15,11 @@
 }
 
 .app-viewport.theme-studio {
-  background: radial-gradient(circle at 50% 28%, #36291e 0%, #251b13 45%, #16100b 75%, #0d0906 100%);
+  background: radial-gradient(circle at 50% 25%, #4a5c2d 0%, #2f3e1a 45%, #1c260f 80%, #0f1608 100%);
 }
 
 .app-viewport.theme-kiln {
-  background: radial-gradient(circle at 50% 32%, #5a1406 0%, #350b03 45%, #1a0401 80%, #0a0100 100%);
-}
-
-.app-viewport.theme-reveal {
-  background: radial-gradient(circle at 50% 28%, #2d2136 0%, #1a1222 45%, #100a16 75%, #07040a 100%);
+  background: radial-gradient(circle at 50% 30%, #521206 0%, #300a03 45%, #180401 80%, #0a0100 100%);
 }
 
 .three-canvas-container {
@@ -94,10 +90,13 @@
 }
 
 @keyframes tickPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
   }
+
   50% {
     transform: scale(1.12);
     box-shadow: 0 0 26px rgba(16, 185, 129, 1);
@@ -215,13 +214,29 @@
 }
 
 @keyframes beaconPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.6); opacity: 0.45; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.6);
+    opacity: 0.45;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* =========================================
@@ -432,8 +447,15 @@
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.94); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-header {
@@ -504,30 +526,37 @@
     padding: 8px 10px 4px 10px;
     gap: 6px;
   }
+
   .pottery-header {
     gap: 6px;
   }
+
   .header-circle-btn {
     width: 36px;
     height: 36px;
   }
+
   .three-step-pill {
     padding: 2px 3px;
   }
+
   .step-segment {
     padding: 3px 8px;
     font-size: 0.66rem;
     gap: 4px;
   }
+
   .step-seg-num {
     width: 15px;
     height: 15px;
     font-size: 0.60rem;
   }
+
   .compact-hint-pill {
     font-size: 0.68rem;
     padding: 3px 10px;
   }
+
   .wheel-toggle-btn {
     padding: 7px 14px;
     font-size: 0.72rem;
@@ -539,22 +568,27 @@
     width: 33px;
     height: 33px;
   }
+
   .pottery-header {
     gap: 4px;
   }
+
   .header-right-group {
     gap: 4px;
   }
+
   .step-segment {
     padding: 2px 5px;
     font-size: 0.60rem;
     gap: 3px;
   }
+
   .step-seg-num {
     width: 13px;
     height: 13px;
     font-size: 0.55rem;
   }
+
   .compact-hint-pill {
     font-size: 0.64rem;
     padding: 2px 8px;
@@ -619,8 +653,15 @@
 }
 
 @keyframes flamePulse {
-  0% { transform: scale(0.92); filter: drop-shadow(0 0 4px #ff5500); }
-  100% { transform: scale(1.18); filter: drop-shadow(0 0 16px #ffaa00); }
+  0% {
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 4px #ff5500);
+  }
+
+  100% {
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 16px #ffaa00);
+  }
 }
 
 .kiln-status-card {
@@ -649,6 +690,3 @@
   color: rgba(255, 235, 220, 0.88);
   font-size: 0.68rem;
 }
-
-
-

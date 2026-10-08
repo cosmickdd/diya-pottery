@@ -8,7 +8,6 @@ import { GesturePoints } from './GesturePoints';
 import { Lighting } from './Lighting';
 import { CameraController } from './CameraController';
 import { PotteryAtmosphere } from './PotteryAtmosphere';
-import { StudioBackdrop } from './StudioBackdrop';
 import { MittiTextureGenerator } from '../materials/MittiTextureGenerator';
 
 interface ClaySceneProps {
@@ -111,9 +110,6 @@ export function ClayScene({
         stage={stage}
         isAutoOrbiting={isAutoOrbiting}
       />
-
-      {/* 3D Artisan Pottery Studio Backdrop & Props */}
-      <StudioBackdrop stage={stage} />
 
       {/* Atmospheric particles & kiln embers */}
       <PotteryAtmosphere stage={stage} />

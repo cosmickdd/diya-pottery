@@ -71,26 +71,23 @@ export function ClayObject({
     roughnessTexture.needsUpdate = true;
   }, [stage, textureGen, colorTexture, normalTexture, roughnessTexture]);
 
-  const isShape = stage === 'stage_01_shape';
-
   // Update clay mesh shape continuously based on exact shapeProgress
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (!meshRef.current) return;
     const posAttr = meshRef.current.geometry.getAttribute('position') as THREE.BufferAttribute;
     const positions = posAttr.array as Float32Array;
 
-    const currentP = isShape ? shapeProgress : 1.0;
-    const timeMs = clock.getElapsedTime() * 1000;
-    getContinuousClayPositions(currentP, positions, isTouching, timeMs);
+    const currentP = stage === 'stage_01_shape' ? shapeProgress : 1.0;
+    getContinuousClayPositions(currentP, positions);
 
     posAttr.needsUpdate = true;
     meshRef.current.geometry.computeVertexNormals();
 
     // Play wet clay sculpting audio while user is touching continuously
-    if (isTouching && isShape && currentP < 1.0) {
+    if (isTouching && stage === 'stage_01_shape' && currentP < 1.0) {
       const now = Date.now();
-      if (now - lastSoundTick.current > 150) {
-        soundEffects.playClaySquish(0.34);
+      if (now - lastSoundTick.current > 160) {
+        soundEffects.playClaySquish(0.32);
         lastSoundTick.current = now;
       }
     }
@@ -125,10 +122,10 @@ export function ClayObject({
         map={colorTexture}
         color="#ffffff"
         normalMap={normalTexture}
-        normalScale={isShape ? new THREE.Vector2(0.85, 0.85) : new THREE.Vector2(0.70, 0.70)}
+        normalScale={new THREE.Vector2(0.65, 0.65)}
         roughnessMap={roughnessTexture}
-        roughness={isShape ? 0.44 : 0.72}
-        metalness={isShape ? 0.04 : 0.02}
+        roughness={0.72}
+        metalness={0.0}
         side={THREE.DoubleSide}
       />
     </mesh>

@@ -161,15 +161,8 @@ export function App() {
     }
   }, []);
 
-  const themeClass =
-    stage === 'stage_02_fire'
-      ? 'theme-kiln'
-      : stage === 'stage_03_reveal'
-      ? 'theme-reveal'
-      : 'theme-studio';
-
   return (
-    <div className={`app-viewport ${themeClass}`}>
+    <div className={`app-viewport ${stage === 'stage_02_fire' ? 'theme-kiln' : 'theme-studio'}`}>
       {/* 3-Step Upper Bar: 1 SHAPE, 2 FIRE, 3 REVEAL */}
       <MobileTopBar
         stage={stage}

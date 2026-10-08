@@ -13,127 +13,68 @@ export interface ClayMeshTopology {
 
 /**
  * Computes profile (radius r, height y) along the clay cross-section.
- * Follows the authentic physical steps of wheel-throwing traditional pottery:
- *  1. lump: Centered moist mound of clay on the wheelhead
- *  2. opened: Potter's thumbs press down into the center, opening the inner core
- *  3. raised: Potter pulls the clay upward, raising the walls into a deep cup
- *  4. flared: Outward curve of the bowl and rolling of the thick rounded rim
- *  5. wide_crest / diya: Artisan pinching of the front wick spout (चोंच) & downward chevron apron
+ * Perfectly proportioned for mobile screens:
+ *  - Fits comfortably within camera view without overflowing
+ *  - Deep hemispherical bowl (height 0.72, max width 1.56, NOT a plate!)
+ *  - Front downward chevron crest & apron matching diya.png
+ *  - NO string/wick, NO flame
  */
 export function getClayProfile(
   t: number,
   phi: number,
-  _stage: ThreeStepStageId,
-  subStep: ShapeSubStep | 'opened' | 'raised' | 'flared'
+  stage: ThreeStepStageId,
+  subStep: ShapeSubStep
 ): { r: number; y: number } {
   const sinPhi = Math.sin(phi);
   const frontWeight = Math.max(0, sinPhi);
   const frontCrestIntensity = Math.pow(frontWeight, 3.6);
 
-  // 1. RAW MITTI LUMP: Moist organic mound centered on wheelhead
-  if (subStep === 'lump') {
-    if (t < 0.25) {
-      const p = t / 0.25;
-      const r = (0.03 + 0.30 * Math.sin(p * Math.PI * 0.5)) * 0.88;
-      const y = 0.77 - 0.08 * (p * p);
-      return { r, y };
-    } else if (t < 0.55) {
-      const p = (t - 0.25) / 0.30;
-      const r = (0.33 + 0.22 * Math.sin(p * Math.PI * 0.5)) * 0.88;
-      const y = 0.69 - 0.25 * p;
-      return { r, y };
-    } else {
-      const p = (t - 0.55) / 0.45;
-      const r = (0.55 + 0.12 * Math.sin(p * Math.PI * 0.5)) * 0.88;
-      const y = 0.44 * (1 - p);
-      return { r, y: Math.max(0.012, y) };
+  // 1. STAGE 1: SUB-STEPS ON THE POTTERY WHEEL
+  if (stage === 'stage_01_shape') {
+    if (subStep === 'lump') {
+      // RAW MITTI LUMP: Organic rounded mound of moist clay centered on wheel
+      const organicNoise = Math.sin(phi * 4) * 0.02 + Math.cos(phi * 3) * 0.015;
+      if (t < 0.35) {
+        const p = t / 0.35;
+        const r = (0.04 + 0.38 * Math.sin(p * Math.PI * 0.5) + organicNoise) * 0.88;
+        const y = 0.78 - 0.18 * (p * p);
+        return { r, y };
+      } else {
+        const p = (t - 0.35) / 0.65;
+        const r = (0.42 + 0.16 * Math.sin(p * Math.PI * 0.5) + organicNoise * (1 - p)) * 0.88;
+        const y = 0.60 * (1 - p);
+        return { r, y: Math.max(0.012, y) };
+      }
+    } else if (subStep === 'basin') {
+      // HOLLOWED BASIN: Deep cylindrical cup with thick walls
+      if (t < 0.28) {
+        const p = t / 0.28;
+        const r = 0.02 + 0.35 * p;
+        const y = 0.20 + 0.10 * (p * p);
+        return { r, y };
+      } else if (t < 0.50) {
+        const p = (t - 0.28) / 0.22;
+        const r = 0.37 + 0.18 * Math.sin(p * Math.PI * 0.5);
+        const y = 0.30 + 0.42 * p;
+        return { r, y };
+      } else if (t < 0.58) {
+        const p = (t - 0.50) / 0.08;
+        const r = 0.55 + 0.09 * p;
+        const y = 0.72 + Math.sin(p * Math.PI) * 0.03;
+        return { r, y };
+      } else {
+        const p = (t - 0.58) / 0.42;
+        const r = 0.64 - 0.18 * p;
+        const y = 0.72 * (1 - p);
+        return { r, y: Math.max(0.012, y) };
+      }
     }
   }
 
-  // 2. OPENED CORE: Thumbs sink into the center, creating the deep well
-  if (subStep === 'opened') {
-    if (t < 0.25) {
-      const p = t / 0.25;
-      const r = 0.02 + 0.30 * p;
-      const y = 0.22 + 0.08 * (p * p);
-      return { r, y };
-    } else if (t < 0.50) {
-      const p = (t - 0.25) / 0.25;
-      const r = 0.32 + 0.24 * Math.sin(p * Math.PI * 0.5);
-      const y = 0.30 + 0.32 * p;
-      return { r, y };
-    } else if (t < 0.60) {
-      const p = (t - 0.50) / 0.10;
-      const r = 0.56 + 0.06 * p;
-      const y = 0.62 + Math.sin(p * Math.PI) * 0.02;
-      return { r, y };
-    } else {
-      const p = (t - 0.60) / 0.40;
-      const r = 0.62 - 0.14 * p;
-      const y = 0.62 * (1 - p);
-      return { r, y: Math.max(0.012, y) };
-    }
-  }
+  // 2. COMPLETE AUTHENTIC DIYA GEOMETRY (Matching diya.png):
+  // Voluptuous, deep hemispherical cup/bowl (height 0.72, max width 1.56)
+  // With thick rolled rounded rim and signature downward V-chevron notch & front apron
 
-  // 3. RAISED CYLINDER / BASIN: Walls pulled tall with uniform thickness
-  if (subStep === 'raised' || subStep === 'basin') {
-    if (t < 0.26) {
-      const p = t / 0.26;
-      const r = 0.02 + 0.36 * p;
-      const y = 0.19 + 0.10 * (p * p);
-      return { r, y };
-    } else if (t < 0.50) {
-      const p = (t - 0.26) / 0.24;
-      const r = 0.38 + 0.22 * Math.sin(p * Math.PI * 0.5);
-      const y = 0.29 + 0.41 * p;
-      return { r, y };
-    } else if (t < 0.58) {
-      const p = (t - 0.50) / 0.08;
-      const r = 0.60 + 0.08 * p;
-      const y = 0.70 + Math.sin(p * Math.PI) * 0.03;
-      return { r, y };
-    } else {
-      const p = (t - 0.58) / 0.42;
-      const r = 0.68 - 0.22 * p;
-      const y = 0.70 * (1 - p);
-      return { r, y: Math.max(0.012, y) };
-    }
-  }
-
-  // 4. FLARED BOWL & ROUNDED RIM: Symmetrical circular diya bowl before pinching spout
-  if (subStep === 'flared') {
-    const baseScale = 0.74;
-    if (t < 0.28) {
-      const p = t / 0.28;
-      const r = (0.02 + 0.50 * p) * baseScale;
-      const y = 0.18 + 0.12 * Math.pow(p, 1.7);
-      return { r, y };
-    } else if (t < 0.48) {
-      const p = (t - 0.28) / 0.20;
-      const r = (0.52 + 0.34 * Math.sin(p * Math.PI * 0.5)) * baseScale;
-      const y = 0.30 + 0.40 * Math.sin(p * Math.PI * 0.5);
-      return { r, y };
-    } else if (t < 0.56) {
-      const p = (t - 0.48) / 0.08;
-      const rimArc = Math.sin(p * Math.PI);
-      const r = (0.86 + 0.10 * p + rimArc * 0.05) * baseScale;
-      const y = 0.70 + rimArc * 0.05;
-      return { r, y };
-    } else if (t < 0.84) {
-      const p = (t - 0.56) / 0.28;
-      const bellySwell = Math.sin(p * Math.PI * 0.8) * 0.10;
-      const r = (0.96 - 0.48 * Math.pow(p, 1.2) + bellySwell) * baseScale;
-      const y = 0.70 - 0.60 * p;
-      return { r, y: Math.max(0.015, y) };
-    } else {
-      const p = (t - 0.84) / 0.16;
-      const r = (0.48 - 0.10 * p) * baseScale * 0.85;
-      const y = 0.10 * (1 - p);
-      return { r, y: Math.max(0.012, y) };
-    }
-  }
-
-  // 5. AUTHENTIC HANDCRAFTED DIYA (Pinched spout, front chevron crest, and flared apron)
   const cos2 = Math.cos(phi) * Math.cos(phi);
   const sin2 = Math.sin(phi) * Math.sin(phi);
   const ovalFactor = Math.sqrt(1.08 * cos2 + 0.94 * sin2);
@@ -231,7 +172,7 @@ export function createClayGeometry(
 
 export function getTargetPositions(
   stage: ThreeStepStageId,
-  subStep: ShapeSubStep | 'opened' | 'raised' | 'flared',
+  subStep: ShapeSubStep,
   radialSegs: number = RADIAL_SEGMENTS,
   profileSegs: number = PROFILE_SEGMENTS
 ): Float32Array {
@@ -255,91 +196,41 @@ export function getTargetPositions(
   return positions;
 }
 
-// 5 precomputed reference poses for authentic continuous pottery wheel throwing
+// Precomputed reference poses for ultra-fast continuous interpolation
 let cachedLump: Float32Array | null = null;
-let cachedOpened: Float32Array | null = null;
-let cachedRaised: Float32Array | null = null;
-let cachedFlared: Float32Array | null = null;
+let cachedBasin: Float32Array | null = null;
 let cachedDiya: Float32Array | null = null;
 
 function getCachedPoses() {
   if (!cachedLump) {
     cachedLump = getTargetPositions('stage_01_shape', 'lump');
-    cachedOpened = getTargetPositions('stage_01_shape', 'opened');
-    cachedRaised = getTargetPositions('stage_01_shape', 'raised');
-    cachedFlared = getTargetPositions('stage_01_shape', 'flared');
+    cachedBasin = getTargetPositions('stage_01_shape', 'basin');
     cachedDiya = getTargetPositions('stage_01_shape', 'wide_crest');
   }
-  return {
-    lump: cachedLump,
-    opened: cachedOpened!,
-    raised: cachedRaised!,
-    flared: cachedFlared!,
-    diya: cachedDiya!,
-  };
+  return { lump: cachedLump, basin: cachedBasin!, diya: cachedDiya! };
 }
 
 /**
- * Computes positions at any continuous progress value in [0, 1] through the 5 authentic pottery stages:
- *  0.00 -> 0.25: Opening the core with potter's thumbs
- *  0.25 -> 0.55: Pulling clay up, raising walls into deep cylinder
- *  0.55 -> 0.80: Opening the voluptuous bowl & rolling the rim
- *  0.80 -> 1.00: Artisan pinching the front oil wick spout & downward chevron crest
- * 
- * Also supports tactile touch squish: subtle organic give and micro-ripple while user touches
+ * Computes positions at any continuous progress value in [0, 1].
+ * 0.0 = Raw Lump
+ * 0.5 = Hollowed Basin
+ * 1.0 = Complete Handcrafted Diya
  */
-export function getContinuousClayPositions(
-  progress: number,
-  outPositions: Float32Array,
-  isTouching: boolean = false,
-  touchTime: number = 0
-): void {
-  const { lump, opened, raised, flared, diya } = getCachedPoses();
+export function getContinuousClayPositions(progress: number, outPositions: Float32Array): void {
+  const { lump, basin, diya } = getCachedPoses();
   const p = Math.max(0, Math.min(1, progress));
 
-  let fromArr: Float32Array;
-  let toArr: Float32Array;
-  let segT: number;
-
-  if (p < 0.25) {
-    fromArr = lump;
-    toArr = opened;
-    segT = p / 0.25;
-  } else if (p < 0.55) {
-    fromArr = opened;
-    toArr = raised;
-    segT = (p - 0.25) / 0.30;
-  } else if (p < 0.80) {
-    fromArr = raised;
-    toArr = flared;
-    segT = (p - 0.55) / 0.25;
+  if (p <= 0.5) {
+    const t = p / 0.5;
+    const ease = t * t * (3 - 2 * t);
+    for (let i = 0; i < outPositions.length; i++) {
+      outPositions[i] = lump[i] + (basin[i] - lump[i]) * ease;
+    }
   } else {
-    fromArr = flared;
-    toArr = diya;
-    segT = (p - 0.80) / 0.20;
-  }
-
-  // Smooth cubic ease for natural clay viscosity
-  const ease = segT * segT * (3 - 2 * segT);
-
-  for (let i = 0; i < outPositions.length; i++) {
-    outPositions[i] = fromArr[i] + (toArr[i] - fromArr[i]) * ease;
-  }
-
-  // Tactile touch feedback: subtle soft clay pliability squish while user holds/touches
-  if (isTouching && p < 1.0) {
-    const squishIntensity = 0.009 * (1 - p * 0.4);
-    const waveFreq = 8.0;
-    const wavePhase = touchTime * 0.008;
-
-    for (let i = 0; i < outPositions.length; i += 3) {
-      const y = outPositions[i + 1];
-      if (y > 0.25 && y < 0.72) {
-        // Subtle organic radial breathing/squish along pliable wall
-        const ripple = Math.sin(y * waveFreq + wavePhase) * squishIntensity;
-        outPositions[i] += outPositions[i] * ripple;
-        outPositions[i + 2] += outPositions[i + 2] * ripple;
-      }
+    const t = (p - 0.5) / 0.5;
+    const ease = t * t * (3 - 2 * t);
+    for (let i = 0; i < outPositions.length; i++) {
+      outPositions[i] = basin[i] + (diya[i] - basin[i]) * ease;
     }
   }
 }
