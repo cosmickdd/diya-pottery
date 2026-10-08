@@ -8,23 +8,25 @@ interface PotteryAtmosphereProps {
 }
 
 /**
- * Atmosphere matching "Let's Create! Pottery 2":
- * - Shape / Reveal: Soft lush bokeh green studio with gentle floating dust motes
- * - Fire: Dark fiery crimson kiln chamber with rising molten ember sparks
+ * Atmospheric particle systems:
+ * - Shape: Warm sunbeam dust motes drifting lazily through the artisan studio
+ * - Fire: Rapid fiery embers and heat sparks swirling upwards from the kiln
+ * - Reveal: Shimmering golden celebratory sparkle dust dancing in the festive light
  */
 export function PotteryAtmosphere({ stage }: PotteryAtmosphereProps) {
   const particlesRef = useRef<THREE.Points>(null);
   const isFire = stage === 'stage_02_fire';
+  const isReveal = stage === 'stage_03_reveal';
 
   const { positions, speeds, count } = useMemo(() => {
-    const particleCount = 70;
+    const particleCount = 90;
     const pos = new Float32Array(particleCount * 3);
     const spd = new Float32Array(particleCount);
     for (let i = 0; i < particleCount; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 1] = Math.random() * 4.5;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 6;
-      spd[i] = 0.5 + Math.random() * 1.5;
+      pos[i * 3] = (Math.random() - 0.5) * 6.5;
+      pos[i * 3 + 1] = Math.random() * 4.8;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 6.5;
+      spd[i] = 0.4 + Math.random() * 1.6;
     }
     return { positions: pos, speeds: spd, count: particleCount };
   }, []);
@@ -36,23 +38,35 @@ export function PotteryAtmosphere({ stage }: PotteryAtmosphereProps) {
 
       for (let i = 0; i < count; i++) {
         if (isFire) {
-          // Embers rise rapidly upwards
-          arr[i * 3 + 1] += speeds[i] * delta * 1.8;
-          arr[i * 3] += Math.sin(arr[i * 3 + 1] * 2) * 0.008;
-          if (arr[i * 3 + 1] > 4.5) {
+          // Embers rise rapidly upwards in the hot draft
+          arr[i * 3 + 1] += speeds[i] * delta * 2.2;
+          arr[i * 3] += Math.sin(arr[i * 3 + 1] * 2.5) * 0.012;
+          if (arr[i * 3 + 1] > 4.8) {
             arr[i * 3 + 1] = 0;
-            arr[i * 3] = (Math.random() - 0.5) * 4;
-            arr[i * 3 + 2] = (Math.random() - 0.5) * 4;
+            arr[i * 3] = (Math.random() - 0.5) * 3.5;
+            arr[i * 3 + 2] = (Math.random() - 0.5) * 3.5;
+          }
+        } else if (isReveal) {
+          // Celebratory golden dust drifting upwards with gentle sine sway
+          arr[i * 3 + 1] += speeds[i] * delta * 0.45;
+          arr[i * 3] += Math.sin(arr[i * 3 + 1] * 1.8) * 0.003;
+          if (arr[i * 3 + 1] > 4.8) {
+            arr[i * 3 + 1] = 0.1;
           }
         } else {
-          // Gentle dust motes drifting lazily
-          arr[i * 3 + 1] += Math.sin(arr[i * 3] * 3) * 0.002;
-          arr[i * 3] += Math.cos(arr[i * 3 + 1] * 2) * 0.0015;
+          // Studio sunlit dust motes drifting lazily
+          arr[i * 3 + 1] += Math.sin(arr[i * 3] * 2.5 + arr[i * 3 + 2]) * 0.002;
+          arr[i * 3] += Math.cos(arr[i * 3 + 1] * 1.8) * 0.0018;
+          arr[i * 3 + 2] += Math.sin(arr[i * 3 + 1] * 2.0) * 0.0015;
         }
       }
       pos.needsUpdate = true;
     }
   });
+
+  const particleColor = isFire ? '#ffaa33' : isReveal ? '#ffdf78' : '#f0d9b5';
+  const particleSize = isFire ? 0.075 : isReveal ? 0.06 : 0.045;
+  const particleOpacity = isFire ? 0.88 : isReveal ? 0.75 : 0.5;
 
   return (
     <group>
@@ -64,10 +78,10 @@ export function PotteryAtmosphere({ stage }: PotteryAtmosphereProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={isFire ? 0.08 : 0.05}
-          color={isFire ? '#ffaa33' : '#d4df9e'}
+          size={particleSize}
+          color={particleColor}
           transparent
-          opacity={isFire ? 0.85 : 0.45}
+          opacity={particleOpacity}
           blending={THREE.AdditiveBlending}
         />
       </points>
@@ -76,10 +90,10 @@ export function PotteryAtmosphere({ stage }: PotteryAtmosphereProps) {
       {isFire && (
         <group position={[0, -0.02, 0]}>
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[1.65, 1.95, 48]} />
-            <meshBasicMaterial color="#ff5500" transparent opacity={0.65} side={THREE.DoubleSide} />
+            <ringGeometry args={[1.5, 1.95, 48]} />
+            <meshBasicMaterial color="#ff5500" transparent opacity={0.7} side={THREE.DoubleSide} />
           </mesh>
-          <pointLight color="#ff4400" intensity={3.5} distance={5} position={[0, 0.5, 0]} />
+          <pointLight color="#ff4400" intensity={4.2} distance={5.5} position={[0, 0.4, 0]} />
         </group>
       )}
     </group>

@@ -15,11 +15,15 @@
 }
 
 .app-viewport.theme-studio {
-  background: radial-gradient(circle at 50% 25%, #4a5c2d 0%, #2f3e1a 45%, #1c260f 80%, #0f1608 100%);
+  background: radial-gradient(circle at 50% 28%, #36291e 0%, #251b13 45%, #16100b 75%, #0d0906 100%);
 }
 
 .app-viewport.theme-kiln {
-  background: radial-gradient(circle at 50% 30%, #521206 0%, #300a03 45%, #180401 80%, #0a0100 100%);
+  background: radial-gradient(circle at 50% 32%, #5a1406 0%, #350b03 45%, #1a0401 80%, #0a0100 100%);
+}
+
+.app-viewport.theme-reveal {
+  background: radial-gradient(circle at 50% 28%, #2d2136 0%, #1a1222 45%, #100a16 75%, #07040a 100%);
 }
 
 .three-canvas-container {
