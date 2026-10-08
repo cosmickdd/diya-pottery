@@ -43,7 +43,7 @@ Ensure you have [Node.js](https://nodejs.org/) (v18 or higher) installed.
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/diya-pottery.git
+git clone https://github.com/cosmickdd/diya-pottery.git
 
 # Navigate into the project directory
 cd diya-pottery
@@ -113,7 +113,7 @@ git commit -m "feat: complete 3D interactive sacred Diya pottery experience"
 git branch -M main
 
 # 5. Link your GitHub remote repository (replace with your repo URL)
-git remote add origin https://github.com/<your-username>/diya-pottery.git
+git remote add origin https://github.com/cosmickdd/diya-pottery.git
 
 # 6. Push your code
 git push -u origin main
