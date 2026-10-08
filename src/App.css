@@ -1,0 +1,650 @@
+/* =========================================
+   LET'S CREATE POTTERY 2 INSPIRED MOBILE STYLING
+   ========================================= */
+
+.app-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.8s ease;
+  touch-action: none;
+}
+
+.app-viewport.theme-studio {
+  background: radial-gradient(circle at 50% 25%, #4a5c2d 0%, #2f3e1a 45%, #1c260f 80%, #0f1608 100%);
+}
+
+.app-viewport.theme-kiln {
+  background: radial-gradient(circle at 50% 30%, #521206 0%, #300a03 45%, #180401 80%, #0a0100 100%);
+}
+
+.three-canvas-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* =========================================
+   MOBILE TOP NAVIGATION BAR
+   ========================================= */
+.mobile-top-bar-container {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  padding: 10px 12px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.pottery-header {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.header-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(18, 26, 12, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.header-circle-btn:active {
+  transform: scale(0.92);
+}
+
+.header-circle-btn.primary {
+  background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 180, 219, 0.4);
+}
+
+.header-circle-btn.primary.pulsing-attention {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #6ee7b7;
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.8), 0 4px 16px rgba(0, 0, 0, 0.4);
+  animation: tickPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes tickPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+  }
+  50% {
+    transform: scale(1.12);
+    box-shadow: 0 0 26px rgba(16, 185, 129, 1);
+  }
+}
+
+.header-circle-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.header-right-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   3-STEP PILL STEPPER (POTTERY 2 STYLE)
+   ========================================= */
+.three-step-pill {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  background: rgba(16, 24, 10, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  flex-shrink: 1;
+}
+
+.step-segment {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.step-seg-num {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+}
+
+.step-segment.active {
+  background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 180, 219, 0.45);
+}
+
+.step-segment.active .step-seg-num {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.step-segment.done {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.step-segment.done .step-seg-num {
+  background: rgba(0, 180, 219, 0.4);
+  color: #ffffff;
+}
+
+/* =========================================
+   COMPACT HINT PILL
+   ========================================= */
+.compact-hint-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(14, 20, 8, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.70rem;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+  animation: fadeIn 0.3s ease;
+  pointer-events: auto;
+  max-width: 90%;
+  text-align: center;
+}
+
+.pulse-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00d2ff;
+  box-shadow: 0 0 8px #00d2ff;
+  animation: beaconPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes beaconPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.45; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   3D HOTSPOT BEACON BADGE
+   ========================================= */
+.hotspot-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(18, 24, 12, 0.88);
+  border: 1px solid rgba(255, 214, 102, 0.8);
+  border-radius: var(--radius-full);
+  color: #fff4cc;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.65), 0 0 10px rgba(255, 214, 102, 0.4);
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  transition: transform 0.18s ease;
+}
+
+.hotspot-badge:hover {
+  transform: scale(1.06);
+  background: rgba(26, 36, 16, 0.95);
+  border-color: #ffd666;
+}
+
+.hotspot-pulse-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffd666;
+  box-shadow: 0 0 6px #ffd666;
+  animation: beaconPulse 1s infinite ease-in-out;
+}
+
+/* =========================================
+   MOBILE BOTTOM CONTROLS
+   ========================================= */
+.mobile-bottom-controls {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.wheel-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(18, 26, 12, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 600;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+.wheel-toggle-btn:active {
+  transform: scale(0.94);
+}
+
+.main-action-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 6px 22px rgba(0, 180, 219, 0.45);
+}
+
+.main-action-pill-btn:active,
+.main-action-pill-btn.touching-active {
+  transform: scale(0.96);
+  filter: brightness(1.15);
+  box-shadow: 0 0 24px rgba(0, 210, 255, 0.7);
+}
+
+.main-action-pill-btn.completed-state {
+  background: rgba(18, 26, 12, 0.85);
+  border: 1px solid rgba(255, 214, 102, 0.45);
+  color: #ffd666;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  cursor: default;
+}
+
+.shaping-percent-badge {
+  padding: 2px 7px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* =========================================
+   STAGE 03 REVEAL FLOATING CONTROLS (NO MODAL CARD)
+   ========================================= */
+.reveal-floating-controls {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+  animation: fadeIn 0.4s ease;
+}
+
+.reveal-action-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 0.80rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 18px rgba(0, 180, 219, 0.45);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.reveal-action-pill:active {
+  transform: scale(0.95);
+  filter: brightness(1.1);
+}
+
+.reveal-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(18, 26, 12, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.reveal-circle-btn:active {
+  transform: scale(0.92);
+}
+
+.reveal-circle-btn.active {
+  background: rgba(0, 180, 219, 0.4);
+  border-color: #00d2ff;
+  color: #ffffff;
+}
+
+/* =========================================
+   REFERENCE MODAL
+   ========================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.reference-modal-card {
+  width: 520px;
+  max-width: 95vw;
+  background: #151d10;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+  animation: scaleIn 0.25s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.modal-subtitle {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.modal-close-btn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.reference-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(circle, #25331a 0%, #10180a 100%);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.reference-full-img {
+  max-width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+}
+
+.reference-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.feature-check {
+  color: #00d2ff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE-FIRST)
+   ========================================= */
+@media (max-width: 480px) {
+  .mobile-top-bar-container {
+    padding: 8px 10px 4px 10px;
+    gap: 6px;
+  }
+  .pottery-header {
+    gap: 6px;
+  }
+  .header-circle-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .three-step-pill {
+    padding: 2px 3px;
+  }
+  .step-segment {
+    padding: 3px 8px;
+    font-size: 0.66rem;
+    gap: 4px;
+  }
+  .step-seg-num {
+    width: 15px;
+    height: 15px;
+    font-size: 0.60rem;
+  }
+  .compact-hint-pill {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+  }
+  .wheel-toggle-btn {
+    padding: 7px 14px;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-circle-btn {
+    width: 33px;
+    height: 33px;
+  }
+  .pottery-header {
+    gap: 4px;
+  }
+  .header-right-group {
+    gap: 4px;
+  }
+  .step-segment {
+    padding: 2px 5px;
+    font-size: 0.60rem;
+    gap: 3px;
+  }
+  .step-seg-num {
+    width: 13px;
+    height: 13px;
+    font-size: 0.55rem;
+  }
+  .compact-hint-pill {
+    font-size: 0.64rem;
+    padding: 2px 8px;
+  }
+}
+
+/* =========================================
+   POTTERY 2 KILN FIRING HUD
+   ========================================= */
+.kiln-firing-overlay {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 25;
+  pointer-events: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.fire-progress-ring-container {
+  position: relative;
+  width: 76px;
+  height: 76px;
+}
+
+.fire-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.fire-ring-bg {
+  fill: rgba(30, 8, 4, 0.65);
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 5;
+}
+
+.fire-ring-bar {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 264;
+  transition: stroke-dashoffset 0.08s linear;
+}
+
+.fire-ring-icon-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffaa33;
+}
+
+.fire-flame-icon.pulsing {
+  animation: flamePulse 0.9s infinite alternate ease-in-out;
+}
+
+@keyframes flamePulse {
+  0% { transform: scale(0.92); filter: drop-shadow(0 0 4px #ff5500); }
+  100% { transform: scale(1.18); filter: drop-shadow(0 0 16px #ffaa00); }
+}
+
+.kiln-status-card {
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(45, 10, 5, 0.88);
+  border: 1px solid rgba(255, 120, 50, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65);
+  text-align: center;
+}
+
+.kiln-temp-badge {
+  color: #ff9944;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.kiln-caption {
+  color: rgba(255, 235, 220, 0.88);
+  font-size: 0.68rem;
+}
+
+
+

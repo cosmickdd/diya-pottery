@@ -1,0 +1,79 @@
+:root {
+  --font-serif: 'Cinzel', serif;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Color Palette */
+  --bg-dark: #0f0b09;
+  --bg-card: rgba(26, 19, 16, 0.75);
+  --bg-card-hover: rgba(38, 28, 23, 0.85);
+  --border-gold: rgba(245, 190, 52, 0.25);
+  --border-gold-glow: rgba(245, 190, 52, 0.55);
+
+  --gold-primary: #f5be34;
+  --gold-light: #ffd86b;
+  --gold-dark: #c28815;
+
+  --terracotta: #b85434;
+  --temple-red: #9e1c0e;
+  --crimson-glow: rgba(158, 28, 14, 0.4);
+
+  --text-main: #fbf7f2;
+  --text-muted: #b8aba2;
+  --text-gold: #ffd67a;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-gold: 0 0 25px rgba(245, 190, 52, 0.2);
+  --shadow-red: 0 0 25px rgba(158, 28, 14, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Background warm studio vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, #241611 0%, #110c0a 65%, #080605 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+input[type='range'] {
+  accent-color: var(--gold-primary);
+}
